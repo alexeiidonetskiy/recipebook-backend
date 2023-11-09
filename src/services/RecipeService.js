@@ -4,7 +4,7 @@ const Recipe = require('../models/Recipe');
 // Define your service methods
 exports.getRecipes = async () => {
   try {
-    const recipes = await Recipe.find().populate('createdBy', 'username email'); // Populate createdBy field with user info (replace 'username' and 'email' with the fields you need).
+    const recipes = await Recipe.find().sort({ createdAt: 'desc' });
 
     return recipes;
   } catch (error) {
@@ -12,15 +12,20 @@ exports.getRecipes = async () => {
   }
 };
 
-exports.saveRecipe = async (title, description, createdBy) => {
+exports.saveRecipe = async (title, description, createdBy, image) => {
   const newRecipe = new Recipe({
     title,
     description,
-    createdBy
+    createdBy,
+    image
   });
 
   return await newRecipe.save();
 };
+
+exports.deleteById = async (id) => {
+  return await Recipe.deleteOne({ _id: id });
+}
 
 exports.deleteWithEmptyTitle = async () => {
   return await Recipe.deleteMany({ description: null });
