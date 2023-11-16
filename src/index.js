@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const config = require('./config/config');
-const mongoose = require('mongoose'); // Import Mongoose
+const mongoose = require('mongoose');
 const recipesRoutes = require('./routes/recipes');
 const authRoutes = require('./routes/auth');
-const { authTokenMidlleware } = require('./middlewares/auth-token-middleware');
+const { authTokenMiddleware } = require('./middlewares/auth-token-middleware');
 const app = express();
 
 // Middleware
@@ -27,7 +27,7 @@ db.once('open', () => {
 
 
 
-app.use('/recepies', authTokenMidlleware, recipesRoutes);
+app.use('/recipes', authTokenMiddleware, recipesRoutes);
 app.use('/auth', authRoutes);
 
 // Start the server
